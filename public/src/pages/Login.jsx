@@ -1,5 +1,5 @@
 import Logo from "../assets/logo.svg"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { Link,useNavigate } from 'react-router-dom'
 import { toast,ToastContainer } from "react-toastify"
@@ -21,6 +21,12 @@ function Login() {
         draggable: true,
         theme: "dark",
       };
+
+      useEffect(()=>{
+        if(localStorage.getItem("chat-app-user")){
+            navigate("/")
+        }
+      },[])
     const handleSubmit = async (event)=>{
         event.preventDefault()
         if (handleValidation()) {
