@@ -8,6 +8,7 @@ import axios from "axios"
 import { registerRoute } from "../utils/APIRoutes"
 
 function Register() {
+    
     const [values,setValues]=useState({
         username:"",
         email:"",
@@ -33,6 +34,13 @@ function Register() {
                     email,
                     password,
                 })
+                if(data.status===false){
+                    toast.error(data.message,toastOptions)
+                }
+                if(data.status===true){
+                    localStorage.setItem("chat-app-user",JSON.stringify(data.user))
+                    navigate("/")
+                }
             } catch (error) {
                 console.log(error.response)
             }
