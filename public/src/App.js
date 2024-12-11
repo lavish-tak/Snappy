@@ -3,7 +3,7 @@ import './App.css';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Chat from "./pages/Chat";
-import SetAvatar from "./pages/SetAvatar";
+import SetAvatar from "./components/SetAvatar";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/register" element={<Register/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/serAvatar" element={<SetAvatar/>}/>
+        <Route path="/setAvatar" element={<SetAvatar/>}/>
         <Route path="/" element={<Chat/>}/>
       </Routes>
     </BrowserRouter>
