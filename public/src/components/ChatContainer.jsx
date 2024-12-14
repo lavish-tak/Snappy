@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components';
 import Logout from './Logout';
 import ChatInput from "./ChatInput"
 import { getAllMessagesRoute, sendMessageRoute } from '../utils/APIRoutes';
 import axios from 'axios';
+import {v4 as uuidv4 } from 'uuid'
 
-function ChatContainer({currentChat,currentUser}) {
+function ChatContainer({currentChat,currentUser,socket}) {
     const [messages,setMessages]=useState([])
+    const [arrivalMessage,setArrivalMessage]=useState(null )
+    const scrollRef = useRef();
     useEffect(()=>{
         async function changeCurrentChat(){
             const response = await axios.post(getAllMessagesRoute,{
@@ -22,7 +25,32 @@ function ChatContainer({currentChat,currentUser}) {
             to:currentChat?._id,
             message:msg,
         })
+        socket.current.emit("send-msg",{
+            to:currentChat._id,
+            from:currentUser._id,
+            message:msg,
+        })
+        const msgs = [...messages]
+        msgs.push({fromSelf:true,message:msg})
+        setMessages(msgs)
     };
+
+    useEffect(()=>{
+        if(socket.current){
+            socket.current.on("msg-received",(msg)=>{
+                setArrivalMessage({fromSelf:false,message:msg})
+            })
+        }
+    },[])
+
+    useEffect(()=>{
+            arrivalMessage && setMessages((prev)=>[...prev,arrivalMessage])
+    },[arrivalMessage])
+
+    useEffect(()=>{
+        scrollRef.current?.scrollIntoView({behaivour:"smooth"})
+    },[messages])
+
   return (
     <>
         {
@@ -45,7 +73,7 @@ function ChatContainer({currentChat,currentUser}) {
                     <div className="chat-messages">{
                         messages.map((message)=>{
                             return (
-                                <div>
+                                <div ref={scrollRef} key={uuidv4()}>
                                     <div className={`message ${message.fromSelf ? "sended" : "received"}`}>
                                         <div className="content">
                                             <p>
