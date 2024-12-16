@@ -66,8 +66,9 @@ function ChatContainer({currentChat,currentUser,socket}) {
                             </div>
                             <div className='username'>
                                 <h3>{currentChat.username}</h3>
+                                <Logout/>
                             </div>
-                            <Logout/>
+                            
                         </div>
                     </div>
                     <div className="chat-messages">{
@@ -108,6 +109,10 @@ const Container = styled.div`
     padding: 0 2rem;
     .user-details {
       display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-left: 10px;
+      flex-grow:1;
       align-items: center;
       gap: 1rem;
       .avatar {
@@ -116,8 +121,12 @@ const Container = styled.div`
         }
       }
       .username {
+        justify-content: space-between;
+        display: flex;
         h3 {
-          color: white;
+            padding-top:15px;
+            margin-right:500px;
+            color: white;
         }
       }
     }
