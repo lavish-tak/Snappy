@@ -6,7 +6,6 @@ import {BsEmojiSmileFill} from 'react-icons/bs'
 
 function ChatInput({handleSendMessage}) {
     const [emojiPicker,setEmojiPicker] = useState(false)
-    const [chosenEmoji,setChosenEmoji] = useState(null)
     const [msg,setMsg]=useState("")
     const handleEmojiPickerHideShow=()=>{
         setEmojiPicker(!emojiPicker)
